@@ -65,6 +65,7 @@ function addItem(e) {
 
   //Append Text node to delete
   deleteBtn.appendChild(document.createTextNode("X"));
+
   //Create a edit button
   var editBtn = document.createElement("input");
   editBtn.type = "button";
