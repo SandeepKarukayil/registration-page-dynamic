@@ -28,6 +28,7 @@ function addItem(e) {
       "https://crudcrud.com/api/93276ab80d4f4b6d8a5de99fc74d2b9f/appointmentData",
       infoObj
     )
+    //
     .then((response) => {
       showNewUserOnScreen(response.data);
       console.log(response);
