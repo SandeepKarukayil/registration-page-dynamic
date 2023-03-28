@@ -66,6 +66,20 @@ function showOnScreen(infoObj) {
   //Append Text node to delete
   deleteBtn.appendChild(document.createTextNode("X"));
 
+  deleteBtn.onclick = () => {
+    axios
+      .delete(
+        `https://crudcrud.com/api/2f775bf63f344462bc6d95d3b5ad0670/appointmentData/${infoObj._id}`
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    users.removeChild(data);
+  };
+
   //Create a edit button
   var editBtn = document.createElement("input");
   editBtn.type = "button";
