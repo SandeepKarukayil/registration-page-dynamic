@@ -1,50 +1,55 @@
-var form = document.getElementById("my-form");
-
-// form submit event
-form.addEventListener("submit", addItem);
-
-function addItem(e) {
-  e.preventDefault();
+function addItem(event) {
+  event.preventDefault();
 
   //get input value
   var newName = document.getElementById("name").value;
   var newEmail = document.getElementById("email").value;
   var newPhone = document.getElementById("phone").value;
 
-  //put in local storage
-  // localStorage.setItem("name", newName);
-  // localStorage.setItem("email", newEmail);
-
   let infoObj = {
-    name: newName,
-    email: newEmail,
-    phone: newPhone,
+    newName,
+    newEmail,
+    newPhone,
   };
-
-  let infoObj_serialized = JSON.stringify(infoObj);
 
   axios
     .post(
-      "https://crudcrud.com/api/93276ab80d4f4b6d8a5de99fc74d2b9f/appointmentData",
+      "https://crudcrud.com/api/2f775bf63f344462bc6d95d3b5ad0670/appointmentData",
       infoObj
     )
     //
     .then((response) => {
-      showNewUserOnScreen(response.data);
-      console.log(response);
+      showOnScreen(response.data);
     })
     .catch((err) => {
-      console.log(error);
+      console.log(err);
     });
+}
 
-  // localStorage.setItem(infoObj.email, infoObj_serialized);
+// let infoObj_serialized = JSON.stringify(infoObj);
 
-  let infoObj_deserialized = JSON.parse(localStorage.getItem("infoObj"));
-  // Add event for delete
-  //form.addEventListener('click', removeItem);
-  //create new li element
+window.addEventListener("DOMContentLoaded", () => {
+  axios
+    .get(
+      "https://crudcrud.com/api/2f775bf63f344462bc6d95d3b5ad0670/appointmentData"
+    )
 
+    .then((response) => {
+      for (let i = 0; i < response.data.length; i++) {
+        showOnScreen(response.data[i]);
+        // console.log(response[i]);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+function showOnScreen(infoObj) {
+  let users = document.getElementById("list of users");
   var data = document.createElement("li");
+
+  data.textContent = ` ${infoObj.newName}  ${infoObj.newEmail} ${infoObj.newPhone}`;
 
   // Add class
 
@@ -54,11 +59,6 @@ function addItem(e) {
   var deleteBtn = document.createElement("input");
   deleteBtn.type = "button";
   deleteBtn.value = "delete";
-
-  deleteBtn.onclick = () => {
-    localStorage.removeItem(infoObj.email);
-    form.removeChild(data);
-  };
 
   //add classes to delete button
   deleteBtn.className = "btn-delete";
@@ -71,29 +71,14 @@ function addItem(e) {
   editBtn.type = "button";
   editBtn.value = "edit";
 
-  editBtn.onclick = () => {
-    document.querySelector("#name").value = infoObj.name;
-    document.querySelector("#email").value = infoObj.email;
-    document.querySelector("#phone").value = infoObj.phone;
-    localStorage.removeItem(infoObj.email);
-    form.removeChild(data);
-  };
-
   //add classes to edit button
   editBtn.className = "btn-edit";
 
   //Append Text node to edit
   deleteBtn.appendChild(document.createTextNode("edit"));
-  //add text node with input value
-
-  //add text node with input value
-
-  data.appendChild(document.createTextNode(newName));
-  data.appendChild(document.createTextNode(" -" + newEmail));
-  data.appendChild(document.createTextNode("-" + newPhone));
 
   //append child
   data.appendChild(editBtn);
   data.appendChild(deleteBtn);
-  form.appendChild(data);
+  users.appendChild(data);
 }
