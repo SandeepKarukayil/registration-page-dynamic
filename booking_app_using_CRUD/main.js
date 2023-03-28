@@ -91,6 +91,22 @@ function showOnScreen(infoObj) {
   //Append Text node to edit
   deleteBtn.appendChild(document.createTextNode("edit"));
 
+  editBtn.onclick = () => {
+    axios
+      .delete(
+        `https://crudcrud.com/api/2f775bf63f344462bc6d95d3b5ad0670/appointmentData/${infoObj._id}`
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    users.removeChild(data);
+    document.getElementById("name").value = infoObj.newName;
+    document.getElementById("email").value = infoObj.newEmail;
+    document.getElementById("phone").value = infoObj.newPhone;
+  };
   //append child
   data.appendChild(editBtn);
   data.appendChild(deleteBtn);
